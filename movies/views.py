@@ -1,8 +1,10 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView
+from rest_framework import viewsets
 
 from movies.models import Movie
+from movies.serializers import MovieSerializer
 
 
 def movie_list_view(request: HttpRequest) -> HttpResponse:
@@ -28,3 +30,8 @@ class MovieListView(ListView):
             queryset = queryset.filter(movie_genres__genre__name=genre_filter)
 
         return queryset
+
+
+class MovieViewSet(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
